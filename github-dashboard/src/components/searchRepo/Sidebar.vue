@@ -1,19 +1,21 @@
-<tem<template>
+<template>
 	<nav class="sideBar">
 		<app-user v-for="user in datas.user" :user="user"></app-user>
-		<app-repos v-for="repo in datas.repos" :repo="repo"></app-repos>
+		<ul class="list-group">
+			<app-repos v-for="repo in datas.repos" :repo="repo"></app-repos>
+		</ul>
 	</nav>
 </template>
 
 <script>
-	import {mapGetters} from 'vuex';
-	import User from './User.vue';
-	import Repos from './Repos.vue';
+	import {mapGetters} from 'vuex'
+	import User from './sidebar/User.vue'
+	import Repos from './sidebar/Repos.vue'
 
 	export default {
 		computed: {
 			...mapGetters({
-				datas: 'initUser'
+				datas: 'initState'
 			}),
 		},
 		components: {
@@ -23,7 +25,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.sideBar {
 		grid-area: sidebar;
 		background-color: grey;

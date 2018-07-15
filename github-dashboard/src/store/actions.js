@@ -1,24 +1,17 @@
-import Vue from 'vue';
+import Vue from 'vue'
+import axios from 'axios'
 
+export const getAuthentication = ( {commit} ) => {
+	let authData = {
+		 "client_secret": "45dc52b272519923ef08d95363e1897022817390",
+		  "scopes": [
+		    "public_repo"
+		  ],
+		  "note": "admin script"		
+		}
 
-const sendRequest = ({commit}, {params}) => {
-		Vue.http.get(params.url)
-		.then( response => response.json())
-		.then( data => {
-			if( data ) {
-				console.log(data);
-				switch(params.type) {
-					case 'user': 
-						//commit('SET_USER', data);
-						break;
-					case 'repo':
-						break;
-					case 'commits':
-						break;
-				}
-			}
-		})
-		.catch( error => console.log(error) );
+	axios.post('/login/oauth/authorize?client_id=da97c1bee8123e417907', authData)
+		.then(res => console.log(res))
+		.catch(err => console.log(err));
 }
 
-export default sendRequest;

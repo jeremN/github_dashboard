@@ -1,5 +1,5 @@
 <template>
-	<ul class="list-group">
+	<ul class="list-group user-profil">
 		<li class="list-group-item">
 			<img :src="user.userPicture" alt="" width="60" height="60">
 		</li>
@@ -14,23 +14,19 @@
 
 <script>
 
-	import {mapActions} from 'vuex';
-
 	export default {
 		props: ['user'],
-		methods: {
-			...mapActions({
-
-			}),
-		}
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.list {
 		&-group {
-			display: flex;
-			flex-direction: column;
+			&.user-profil {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+			}
 		}
 	}
 </style>

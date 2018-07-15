@@ -1,10 +1,16 @@
-import Vue from 'vue';
+import Vue from 'vue'
+import axios from 'axios'
 
 const initialState = () => {
 	return {
-		user: [],
-		repos: [],
-		stats: []
+		user: null,
+		repos: null,
+		issues: null,
+		contribs: null,
+		forks: null,
+		activity: null,
+		languages: null,
+		tags: null,
 	}
 }
 
@@ -12,10 +18,16 @@ const state = initialState();
 
 
 const mutations = {
-	'RESET_STATE'(state) {
-		Object.assign( state, initialState() );
+	'RESET_STATE'(state, options) {
+		if(options) {
+			options.reset.forEach( key => state[key] = null )
+		}
+		else {
+			Object.assign( state, initialState() );
+		}
 	},
 	'SET_USER'( state, data ) {
+		state.user = []
 		state.user.push({
 			userPicture: data.avatar_url,
 			userLink: data.html_url,
@@ -26,44 +38,89 @@ const mutations = {
 		});
 	},
 	'SET_REPOS'( state, data ) {
-		console.log(data);
+		state.repos = []
 		for( let i of data ) {
-			let repo = {
+			state.repos.push({
 				repoUser: i.owner.login,
 				repoName: i.name,
 				repoForks: i.forks,
 				repoIssues: i.open_issues,
 				repoWatchers: i.watchers
-			}
-			state.repos.push(repo);
+			})
 		}
 	},
-	'SET_COMMITS'( state, data ) {
-		state.stats.push({
-			commitsTotal: data.length
-		});
+	'SET_REPOISSUES'( state, data ) {
+		state.issues = data.length
 	},
-	'SET_LANG'(state, data) {
-
+	'SET_REPOLANGUAGES'( state, data ) {
+		state.languages = [];
+		for( let i in data ) {
+			state.languages.push({
+				language: i,
+				value: data[i]
+			})
+		}
 	},
-
+	'SET_REPOFORKS'( state, data ) {
+		state.forks = data.length
+	},
+	'SET_REPOTAGS'( state, data ) {
+		state.tags = []
+		for( let i of data ) {
+			state.tags.push({
+				name: i.name,
+				url: i.url
+			})
+		}
+	},
+	'SET_REPOCONTRIBUTORS'( state, data ) {
+		state.contribs = []
+		data = data.slice(0, 3);
+		for( let i of data) {
+			state.contribs.push({
+				name: i.login,
+				total: i.contributions
+			})
+		}
+	},
+	'SET_REPOACTIVITY'( state, data ) {
+		console.log('activity', data)
+	}
 }
 
 const actions = {
 	sendRequest( {commit}, params ) {
-		Vue.http.get( params.url )
-		.then( response => response.json())
-		.then( data => {
-			if( data ) {
+		axios.get( params.url )
+		.then( res => {
+			if( res.data ) {
 				switch( params.type ) {
 					case 'user': 
-						commit( 'SET_USER', data );
+						commit( 'SET_USER', res.data )
 						break;
 					case 'repo':
-						commit( 'SET_REPOS', data );
+						commit( 'SET_REPOS', res.data )
 						break;
 					case 'commits':
-						commit( 'SET_COMMITS', data );
+						commit( 'SET_REPOCOMMITS', res.data )
+						break;
+					case 'issues':
+						commit( 'SET_REPOISSUES', res.data )
+						break;
+					case 'forks':
+						commit( 'SET_REPOFORKS', res.data )
+						break;
+					case 'tags':
+						commit( 'SET_REPOTAGS', res.data )
+						break;
+					case 'languages':
+						commit( 'SET_REPOLANGUAGES', res.data )
+						break;
+					case 'contributors':
+						commit( 'SET_REPOCONTRIBUTORS', res.data )
+						break;
+					case 'activity':
+						commit( 'SET_REPOACTIVITY', res.data )
+						break;
 					default:
 						return;
 				}
@@ -71,18 +128,15 @@ const actions = {
 		})
 		.catch( error => console.log( error ) );
 	},
-	getDefaultState( {commit} ) {
-		commit('RESET_STATE');
+	getDefaultState( {commit}, params ) {
+		commit('RESET_STATE', params);
 	},		
 }
 
 const getters = {
-	initUser( state, getters ) {
-		return state;
+	initState( state, getters ) {
+		return state
 	},
-	initRepoStat( state, getters ) {
-		return state.stat
-	}
 }
 
 export default {

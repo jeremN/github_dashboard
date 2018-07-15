@@ -5,7 +5,7 @@
 			<div class="card">
 				<router-link to="/createRepository" class="card-btn">Créer un dépôt</router-link>
 			</div>
-			<div class="card">
+			<div class="card" @click="getAuth">
 				<router-link to="/searchRepository" class="card-btn">Chercher un dépôt</router-link>
 			</div>
 		</div>
@@ -13,7 +13,22 @@
 </template>
 
 <script>
-	
+	import {mapActions} from 'vuex'
+
+	export default {
+		methods: {
+			...mapActions({
+				getToken: 'getAuthentication',
+				resetState: 'getDefaultState'
+			}),
+			getAuth() {
+				//this.resetState();
+				//this.getToken();
+				console.log('go')
+			}
+		},
+	}
+
 </script>
 
 <style lang="scss">

@@ -7,9 +7,9 @@
 </template>
 
 <script>
-	import Sidebar from './Sidebar.vue';
-	import SearchBar from './SearchBar.vue';
-	import Dashboard from './Dashboard.vue';
+	import Sidebar from './Sidebar.vue'
+	import SearchBar from './SearchBar.vue'
+	import Dashboard from './Dashboard.vue'
 
 	export default {
 		components: {

@@ -1,4 +1,4 @@
-<tem<template>
+<template>
 	<header class="searchBar">
 		<div class="form-group form-groupe-inline">
 			<input
@@ -16,7 +16,8 @@
 
 <script>
 
-	import {mapActions} from 'vuex';
+	import {mapActions} from 'vuex'
+	import axios from 'axios'
 
 	export default {
 		data() {
@@ -30,25 +31,28 @@
 				resetState: 'getDefaultState'
 			}),
 			searchUser() {
-				this.resetState();
+				const params = { reset: [ 'user', 'repos', 'issues', 'contribs', 'forks', 'activity', 'languages', 'tags', 'total'] }
+
+				this.resetState(params)
+
 				const params_USER = {
-					url: "https://api.github.com/users/" + this.name,
+					url: "/users/" + this.name,
 					type: 'user'
 				}
 				const params_REPOS = {
-					url: "https://api.github.com/users/" + this.name + "/repos",
+					url: "/users/" + this.name + "/repos",
 					type: 'repo'
 				}
 
-				this.fetchData( params_USER );
-				this.fetchData( params_REPOS );
-				this.name = '';
+				this.fetchData( params_USER )
+				this.fetchData( params_REPOS )
+				this.name = ''
 			}
 		}
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.searchBar {
 		grid-area: header;
 		background-color: turquoise;
