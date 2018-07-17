@@ -14,11 +14,27 @@ const initialState = () => {
 	}
 }
 
+const convertTimestamp = ( UNIXtimestamp ) => {
+	let date = new Date(UNIXtimestamp * 1000)
+	date = convertDate(date)
+	return date
+}
+const convertDate = ( date ) => {
+	const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+	return `${date.getFullYear()}-${date.getDate()}-${months[date.getMonth()]}`
+}
+const formatDatas = ( data, index, baseDate ) => {
+	baseDate = convertTimestamp(baseDate)
+	let day = new Date(baseDate)
+	day.setDate( day.getDate() + index )
+	state.activity.push({ 'day': convertDate(day), 'count': data }) 
+}
+
 const state = initialState();
 
 
 const mutations = {
-	'RESET_STATE'(state, options) {
+	'RESET_STATE'( state, options ) {
 		if(options) {
 			options.reset.forEach( key => state[key] = null )
 		}
@@ -53,7 +69,7 @@ const mutations = {
 		state.issues = data.length
 	},
 	'SET_REPOLANGUAGES'( state, data ) {
-		state.languages = [];
+		state.languages = []
 		for( let i in data ) {
 			state.languages.push({
 				language: i,
@@ -75,7 +91,7 @@ const mutations = {
 	},
 	'SET_REPOCONTRIBUTORS'( state, data ) {
 		state.contribs = []
-		data = data.slice(0, 3);
+		data = data.slice(0, 3)
 		for( let i of data) {
 			state.contribs.push({
 				name: i.login,
@@ -84,7 +100,13 @@ const mutations = {
 		}
 	},
 	'SET_REPOACTIVITY'( state, data ) {
-		console.log('activity', data)
+		state.activity = []
+		console.log(data)
+		data.forEach( d => {
+			for(let i = 0; i < d.days.length; i++) {
+				formatDatas(d.days[i], i, d.week)
+			}
+		})
 	}
 }
 

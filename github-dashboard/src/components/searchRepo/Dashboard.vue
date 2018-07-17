@@ -1,5 +1,5 @@
 <template>
-	<div class="dashboard">
+	<div class="dashboard" v-if="!addIssue">
 		<h2>Dashboard</h2>
 		<div class="row">
 			<ul class="list-group tags-list">
@@ -29,15 +29,20 @@
 				<div class="col-right">
 					<h2>Issues</h2>
 					<p>{{ datas.issues }}</p>
+					<button @click="addIssue = true">Add an Issue</button>
 				</div>
 			</div>
 			<div class="panel width66">
 				<h1>Commits Heatmap</h1>
 				<div class="line-chart">
-					<app-heatmap></app-heatmap>
+					<app-heatmap v-if="datas.activity" :datas="datas.activity"></app-heatmap>
 				</div>
 			</div>
 		</div>
+	</div>
+	<div v-else>
+		<h2>Create new issue</h2>
+		<app-issueform></app-issueform>
 	</div>
 </template>
 
@@ -47,15 +52,12 @@
 	import Heatmap from './charts/Heatmap.vue'
 	import Contributors from './dashboard/Ranklist.vue'
 	import Tags from './dashboard/Taglist.vue'
+	import Issueform from './dashboard/Form.vue'
 
 	export default {
 		data() {
 			return {
-				data: [
-					{language: 'javascript', value:121096}, 
-					{language: 'css', value: 80633}, 
-					{language: 'html', value: 2515}
-					]
+				addIssue: false
 			}
 		},
 		computed: {
@@ -68,6 +70,7 @@
 			appHeatmap: Heatmap,
 			appContributors: Contributors,
 			appTags: Tags,
+			appIssueform: Issueform,
 		}
 	}
 </script>

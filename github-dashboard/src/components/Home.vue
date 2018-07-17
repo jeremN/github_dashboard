@@ -1,5 +1,29 @@
 <template>
-	<div class="wrap">
+	<div class="wrap" v-if="!isLogged">
+		<h2>Please login to continue</h2>
+		<form @submit.prevent="sendAuth">
+			<div class="form-group">
+				<label for="login">Login</label>
+				<input 
+					id="login" 
+					class="form-control" 
+					type="text" 
+					v-model="login">
+			</div>
+			<div class="form-group">
+				<label for="password">Password</label>
+				<input 
+					id="password" 
+					class="form-control" 
+					type="password" 
+					v-model="password">
+			</div>
+			<div class="form-group">
+				<button class="btn" type="submit">Submit</button>
+			</div>
+		</form>
+	</div>
+	<div class="wrap" v-else>
 		<h2>Que voulez-vous faire ?</h2>
 		<div class="row">
 			<div class="card">
@@ -16,15 +40,25 @@
 	import {mapActions} from 'vuex'
 
 	export default {
+		data() {
+			return {
+				isLogged: false,
+				login: '',
+				password: '',
+			}
+		},
 		methods: {
 			...mapActions({
-				getToken: 'getAuthentication',
+				log: 'login',
 				resetState: 'getDefaultState'
 			}),
-			getAuth() {
-				//this.resetState();
-				//this.getToken();
-				console.log('go')
+			sendAuth() {
+				const formData = {
+					login: this.login,
+					password: this.password
+				}
+				this.log(formData)
+
 			}
 		},
 	}

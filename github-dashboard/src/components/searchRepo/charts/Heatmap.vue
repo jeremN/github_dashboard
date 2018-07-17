@@ -1,14 +1,13 @@
 <template>
-	<svg :style='{ width: settings.width +"px", height: settings.height +"px" }'>
-		<g class='chart-container'>
-		</g>
-	</svg>
+	<div class="heatmap-container">
+	</div>
 </template>
 
 <script>
 	import * as d3 from 'd3';
 
 	export default {
+		props: ['datas'],
 		data() {
 			return {
 				settings: {
@@ -16,108 +15,83 @@
 					height: 300,
 					cellSize: 17
 				},
-				colors: ["#a50026", "#d73027", "#f46d43", "#fdae61", "#fee08b", "#ffffbf", "#d9ef8b", "#a6d96a", "#66bd63", "#1a9850", "#006837"],
+				colors: ['#ffffd9','#edf8b1','#c7e9b4','#7fcdbb','#41b6c4','#1d91c0','#225ea8','#253494','#081d58'],
 				margin: {
 					top: 10,
 					right: 20,
 					bottom: 30,
 					left: 40
 				},
-				heatmapArray: [],
-				datas: [
-						{days: [0, 3, 0, 9, 42, 1, 0], total: 55, week: 1501372800},
-						{days: [0, 3, 0, 9, 32, 1, 0], total: 45, week: 1501977600},
-						{days: [0, 3, 0, 9, 42, 1, 0], total: 55, week: 1502582400},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1503187200},
-						{days: [0, 3, 0, 9, 32, 1, 0], total: 45, week: 1503792000},
-						{days: [0, 3, 0, 9, 42, 1, 0], total: 55, week: 1504396800},
-						{days: [0, 3, 0, 9, 42, 1, 0], total: 55, week: 1505001600},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1505606400},
-						{days: [0, 3, 0, 9, 42, 1, 0], total: 55, week: 1506211200},
-						{days: [0, 3, 0, 9, 32, 1, 0], total: 45, week: 1506816000},
-						{days: [0, 3, 0, 9, 32, 1, 0], total: 45, week: 1507420800},
-						{days: [0, 3, 0, 9, 32, 1, 0], total: 45, week: 1508025600},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1508630400},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1509235200},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1509840000},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1510444800},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1511049600},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1511654400},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1512259200},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1512864000},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1513468800},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1514073600},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1514678400},
-						{days: [0, 3, 0, 9, 32, 1, 0], total: 45, week: 1515283200},
-						{days: [0, 3, 0, 9, 32, 1, 0], total: 45, week: 1515888000},
-						{days: [0, 3, 0, 9, 32, 1, 0], total: 45, week: 1516492800},
-						{days: [0, 3, 0, 9, 32, 1, 0], total: 45, week: 1517097600},
-						{days: [0, 3, 0, 9, 32, 1, 0], total: 45, week: 1517702400},
-						{days: [0, 3, 0, 9, 32, 1, 0], total: 45, week: 1518307200},
-						{days: [0, 3, 0, 9, 32, 1, 0], total: 45, week: 1518912000},
-						{days: [0, 3, 0, 9, 42, 1, 0], total: 55, week: 1519516800},
-						{days: [0, 3, 0, 9, 42, 1, 0], total: 55, week: 1520121600},
-						{days: [0, 3, 0, 9, 42, 1, 0], total: 55, week: 1520726400},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1521331200},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1521936000},
-						{days: [0, 3, 0, 9, 32, 1, 0], total: 45, week: 1522540800},
-						{days: [0, 3, 0, 9, 42, 1, 0], total: 55, week: 1523145600},
-						{days: [0, 3, 0, 9, 42, 1, 0], total: 55, week: 1523750400},
-						{days: [0, 3, 0, 9, 42, 1, 0], total: 55, week: 1524355200},
-						{days: [0, 3, 0, 9, 42, 1, 0], total: 55, week: 1524960000},
-						{days: [0, 3, 0, 9, 42, 1, 0], total: 55, week: 1525564800},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1526169600},
-						{days: [0, 3, 0, 9, 32, 1, 0], total: 45, week: 1526774400},
-						{days: [0, 3, 0, 9, 32, 1, 0], total: 45, week: 1527379200},
-						{days: [0, 3, 0, 9, 32, 1, 0], total: 45, week: 1527984000},
-						{days: [0, 3, 0, 9, 32, 1, 0], total: 45, week: 1528588800},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1529193600},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1529798400},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1530403200},
-						{days: [0, 0, 0, 0, 0, 0, 0], total: 0, week: 1531008000},
-						{days: [0, 3, 0, 9, 32, 1, 0], total: 45, week: 1531612800}
-				],
-				week: '',
+				days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+				gridSize: 20,
+				gridMargin: 2,
+				lookup: null,
 			}
 		},
 		mounted() {
 			this.calculatePath(this.datas)
 		},
 		methods: {
-			convertTimestamp(UNIXtimestamp) {
-				let date = new Date(UNIXtimestamp * 1000)
-				date = this.formatDays(date)
-				return date
-			},
-			formatDays(date) {
-				const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-				return `${months[date.getMonth()]}/${date.getDate()}/${date.getFullYear()}`
-			},
-			formatDatas(data, index, baseDate) {
-				baseDate = this.convertTimestamp(baseDate)
-				let day = new Date(baseDate)
-				day.setDate( day.getDate() + index )
-				this.heatmapArray.push({ 'day': this.formatDays(day), 'count': data }) 
+			weeksInMonth(month) {
+				let m = d3.timeMonth.floor(month)
+				return d3.timeWeeks(d3.timeWeek.floor(m), d3.timeMonth.offset(m, 1)).length
 			},
 			calculatePath(data) {
-				data.forEach( d => {
-					for(let i = 0; i < d.days.length; i++) {
-						this.formatDatas(d.days[i], i, d.week)
-					}
-				})
-				console.log(this.heatmapArray)
 
-				const x = d3.scaleBand().range([0, this.settings.width]).padding(0.1)
-				const y = d3.scaleLinear().range( [this.settings.height, 0] )
-				const colors = d3.scaleQuantize()
-									.domain([0, 10])
-									.range(this.colors)
+				let minDate = d3.min( data, d => new Date(d.day) )
+				let maxDate = d3.max( data, d => new Date(d.day) )
 
-				let g = d3.select('.chart-container')
-							.attr( 'transform', 'translate('+ (( this.settings.width - this.settings.cellSize * 53 ) / 2) +','+ ( this.settings.height - this.settings.cellSize * 7 - 1) + ')' )
+				let D = d3.timeFormat('%w'),
+					W = d3.timeFormat('%U'),
+					format = d3.timeFormat('%Y-%d-%b'),
+					monthName = d3.timeFormat('%B'),
+					titleFormat = d3.utcFormat('%a, %d-%b'),
+					M = d3.timeMonth.range(d3.timeMonth.floor(minDate), maxDate)
 
-		
+				let monthGroup = d3.select('.heatmap-container')
+					.selectAll('.monthGroup')
+					.data(M)
+					.enter()
+					.append('svg')
+					.attr( 'class', 'monthGroup' )
+					.attr( 'height', ( (this.gridSize * 7) + (this.gridMargin * 8) + 20 ) )
+					.attr( 'width', d => ( (this.gridSize * this.weeksInMonth(d)) + (this.gridMargin * (this.weeksInMonth(d) + 1)) ) )
+					.append('g')
 
+				monthGroup.append('text')
+					.attr('class', 'monthName')
+					.attr( 'y', (this.gridSize * 7) + (this.gridMargin * 8) + 15 )
+					.attr( 'x', d =>  ( ((this.gridSize * this.weeksInMonth(d)) + (this.gridMargin * (this.weeksInMonth(d) + 1))) / 2) )
+					.attr( 'text-anchor', 'middle' )
+					.text( d => monthName(d))
+
+				let rect = monthGroup.selectAll('rect.day')
+				    .data( (d, i) => d3.timeDays(d, new Date(d.getFullYear(), d.getMonth()+1, 1)) )
+				    .enter().append('rect')
+				    .attr( 'class', 'day' )
+				    .attr( 'width', this.gridSize )
+				    .attr( 'height', this.gridSize )
+				    .attr( 'fill', '#eaeaea' )
+				    .attr( 'y', d => (D(d) * this.gridSize) + (D(d) * this.gridMargin) + this.gridMargin )
+				    .attr( 'x', d => ((W(d) - W(new Date(d.getFullYear(),d.getMonth(), 1))) * this.gridSize) + ((W(d) - W(new Date(d.getFullYear(),d.getMonth(), 1))) * this.gridMargin) + this.gridMargin  )
+				    .datum(format)
+
+				 rect.append('title')
+				 	.text(d => d)
+
+				let lookup = d3.nest()
+					.key( d => d.day )
+					.rollup( leaves => d3.sum(leaves, d => parseInt(d.count) ) )
+					.object(data) 
+
+				let scale = d3.scaleLinear()
+					.domain( d3.extent(data, d => parseInt(d.count)) )
+					.range([0.5, 1])
+
+				rect.filter( d => d in lookup )
+					.style( 'fill', d => d3.interpolateCool(scale(lookup[d])) )
+					.select('title')
+					.text( d => d + ': ' + lookup[d] )
 			}
 		}
 	}

@@ -30,29 +30,33 @@
 				const selectedRepo = e.currentTarget.id
 				
 				this.resetState(params)
+				console.log(selectedRepo)
+				console.log(userName)
+
+				const baseURL = "/repos/" + userName + "" + selectedRepo
 
 				const params_ISSUES = {
-					url: "/repos/" + userName + "/" + selectedRepo +"/issues",
+					url: baseURL +"/issues",
 					type: 'issues'
 				}
 				const params_FORKS = {
-					url: "/repos/" + userName + "/" + selectedRepo +"/forks",
+					url: baseURL +"/forks",
 					type: 'forks'
 				}
 				const params_TAGS = {
-					url: "/repos/" + userName + "/" + selectedRepo +"/tags",
+					url: baseURL +"/tags",
 					type: 'tags'
 				}
 				const params_LANG = {
-					url: "/repos/" + userName + "/" + selectedRepo +"/languages",
+					url: baseURL +"/languages",
 					type: 'languages'
 				}
 				const params_ACTIVITY = {
-					url: "/repos/" + userName + "/" + selectedRepo +"/stats/commit_activity",
+					url: baseURL +"/stats/commit_activity",
 					type: 'activity'
 				}
 				const params_CONTRIBUTORS = {
-					url: "/repos/" + userName + "/" + selectedRepo +"/contributors",
+					url: baseURL +"/contributors",
 					type: 'contributors'
 				}
 
