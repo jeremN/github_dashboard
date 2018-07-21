@@ -8,9 +8,9 @@ const initialState = () => {
 		issues: null,
 		contribs: null,
 		forks: null,
-		activity: null,
 		languages: null,
 		tags: null,
+		activeRepo: null
 	}
 }
 
@@ -99,14 +99,8 @@ const mutations = {
 			})
 		}
 	},
-	'SET_REPOACTIVITY'( state, data ) {
-		state.activity = []
-		console.log(data)
-		data.forEach( d => {
-			for(let i = 0; i < d.days.length; i++) {
-				formatDatas(d.days[i], i, d.week)
-			}
-		})
+	'SET_ACTIVREPO'( state, repo ) {
+		state.activeRepo = repo
 	}
 }
 
@@ -140,9 +134,6 @@ const actions = {
 					case 'contributors':
 						commit( 'SET_REPOCONTRIBUTORS', res.data )
 						break;
-					case 'activity':
-						commit( 'SET_REPOACTIVITY', res.data )
-						break;
 					default:
 						return;
 				}
@@ -151,8 +142,11 @@ const actions = {
 		.catch( error => console.log( error ) );
 	},
 	getDefaultState( {commit}, params ) {
-		commit('RESET_STATE', params);
-	},		
+		commit('RESET_STATE', params)
+	},
+	setActivRepo( {commit}, repo ) {
+		commit('SET_ACTIVREPO', repo)
+	}		
 }
 
 const getters = {

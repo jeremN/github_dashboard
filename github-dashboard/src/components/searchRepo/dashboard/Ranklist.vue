@@ -1,7 +1,9 @@
 <template>
-	<li class="list-group-item" :id="contrib.name" :key="contrib.id">
-		<h2>{{ contrib.name }}</h2>
-		<h3>{{ contrib.total }}</h3>
+	<li :id="contrib.name" class="card-list-item">
+		<i class="medal"></i>
+		<!--img src="" alt=""-->
+		<p>{{ contrib.name }}</p>
+		<span class="card-pill">{{ contrib.total }} Contributions</span>
 	</li>
 </template>
 
@@ -13,11 +15,4 @@
 </script>
 
 <style lang="scss" scoped>
-	.list {
-		&-group-item {
-			width: 100%;
-			display: flex;
-			flex-flow: row nowrap;
-		}
-	}
 </style>

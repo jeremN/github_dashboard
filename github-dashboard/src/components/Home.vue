@@ -1,55 +1,70 @@
 <template>
-	<div class="wrap" v-if="!isLogged">
-		<h2>Please login to continue</h2>
-		<form @submit.prevent="sendAuth">
+	<div class="screen-login">
+		<form id="loginForm" class="form" @submit.prevent="sendAuth">
+			<h1 class="navbar-brand">WELCOME <i class="fas fa-grin-alt"></i></h1>
 			<div class="form-group">
-				<label for="login">Login</label>
+				<label for="login">Login<span>(required)</span></label>
 				<input 
 					id="login" 
-					class="form-control" 
+					class="form-field" 
 					type="text" 
+					name="userLogin" 
+					required
 					v-model="login">
 			</div>
 			<div class="form-group">
-				<label for="password">Password</label>
+				<label for="password">Password<span>(required)</span></label>
 				<input 
 					id="password" 
-					class="form-control" 
+					class="form-field" 
 					type="password" 
+					name="userPassword" 
+					required
 					v-model="password">
 			</div>
 			<div class="form-group">
-				<button class="btn" type="submit">Submit</button>
+				<button id="sendLogin" class="form-btn btn-submit" type="submit">Login</button>
+			</div>
+			<div class="sep"></div>
+			<div class="form-group">
+				<button 
+					@click.prevent="noLogin" 
+					id="continue" 
+					class="form-btn btn-submit btn-grey" 
+					type="button">
+					Continue without login
+				</button>
+				<p class="warn"><i class="fas fa-exclamation-triangle"></i>Limited request rate</p>
 			</div>
 		</form>
-	</div>
-	<div class="wrap" v-else>
-		<h2>Que voulez-vous faire ?</h2>
-		<div class="row">
-			<div class="card">
-				<router-link to="/createRepository" class="card-btn">Créer un dépôt</router-link>
-			</div>
-			<div class="card" @click="getAuth">
-				<router-link to="/searchRepository" class="card-btn">Chercher un dépôt</router-link>
-			</div>
-		</div>
 	</div>
 </template>
 
 <script>
-	import {mapActions} from 'vuex'
+	import { mapActions, mapGetters } from 'vuex'
 
 	export default {
 		data() {
 			return {
-				isLogged: false,
 				login: '',
-				password: '',
+				password: ''
 			}
+		},
+		created() {
+			if( this.isLogged ) {
+				this.$router.push('board')
+			}
+		},
+		computed: {
+			...mapGetters({
+				isLogged: 'isAuthenticated',
+				isRestritect: 'isRestrited'
+			}),
 		},
 		methods: {
 			...mapActions({
 				log: 'login',
+				noLog: 'restricted',
 				resetState: 'getDefaultState'
 			}),
 			sendAuth() {
@@ -58,42 +73,40 @@
 					password: this.password
 				}
 				this.log(formData)
-
-			}
+			},
+			noLogin() {
+				this.noLog(true)
+			},
 		},
 	}
 
 </script>
 
-<style lang="scss">
-	.wrap {
-		width: 100%;
-		max-width: 1200px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		margin: auto;
-	}
-	.row {
-		display: flex;
-	}
-	.card {
-		width: 240px;
-		height: 120px;
-		display: flex;
-		padding: 1em;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		border: 1px solid #ccc;
-		box-shadow: 2px 2px 16px 2px rgba(0,0,0,0.1);
-		margin: 1em 1.5em;
-		&-btn {
-			font-size: 18px;
-			color: #000;
-			text-decoration: none;
+<style lang="scss" scoped>
+	.warn {
+		text-align: center;
+		margin-top: 0.5em;
+		font-size: 12px;
+		i {
+			margin-right: 0.5em;
+			color: #e74c3c;
 		}
 	}
-
+	.sep {
+		display: flex;
+		width: 100%;
+		height: 1px;
+		background-color: #f4f7f9;
+	}
+	.btn-grey {
+		color: #c9d4d7;
+		border-color: #c9d4d7;
+		&:hover {
+			background-color: #c9d4d7;
+			color: #fff;
+		}
+	}
+	.form-group:last-child {
+		margin-top: 1.5em;
+	}
 </style>

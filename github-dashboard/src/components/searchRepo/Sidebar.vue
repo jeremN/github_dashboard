@@ -1,7 +1,7 @@
 <template>
-	<nav class="sideBar">
+	<nav class="sidebar">
 		<app-user v-for="user in datas.user" :user="user"></app-user>
-		<ul class="list-group">
+		<ul class="sidebar-list">
 			<app-repos v-for="repo in datas.repos" :repo="repo"></app-repos>
 		</ul>
 	</nav>
@@ -25,15 +25,6 @@
 	}
 </script>
 
-<style lang="scss" scoped>
-	.sideBar {
-		grid-area: sidebar;
-		background-color: grey;
-	}
-	.list {
-		&-group {
-			display: flex;
-			flex-direction: column;
-		}
-	}
+<style lang="scss">
+
 </style>

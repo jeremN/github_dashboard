@@ -1,8 +1,10 @@
 <template>
 	<div class="container">
-		<app-sidebar></app-sidebar>
-		<app-searchbar></app-searchbar>
-		<app-dashboard></app-dashboard>
+		<div class="grid">
+			<app-searchbar></app-searchbar>
+			<app-sidebar></app-sidebar>
+			<app-dashboard></app-dashboard>
+		</div>
 	</div>
 </template>
 
@@ -21,13 +23,14 @@
 </script>
 
 <style>
-	.container {
-		width: 100%;
-		height: 100%;
-		display: grid;
-		grid-template-columns: 1fr 3fr;
-		grid-template-rows: 80px auto;
-		grid-template-areas: "sidebar header"
-							 "sidebar board";
-	}
+.grid {
+	height: 100%;
+	display: grid;
+	grid-template-columns: 10% 2.5% 37.5% 37.5% 12.5%;
+	grid-template-rows: 72px 50px auto;
+}
+.container {
+	width: 100%;
+	height: 100%;
+}
 </style>

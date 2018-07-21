@@ -1,5 +1,6 @@
 <template>
 	<div class="heatmap-container">
+		<p v-if="!datas.isArray">No activity to display</p>
 	</div>
 </template>
 
@@ -29,6 +30,7 @@
 			}
 		},
 		mounted() {
+			console.log(this.datas)
 			this.calculatePath(this.datas)
 		},
 		methods: {
@@ -37,7 +39,6 @@
 				return d3.timeWeeks(d3.timeWeek.floor(m), d3.timeMonth.offset(m, 1)).length
 			},
 			calculatePath(data) {
-
 				let minDate = d3.min( data, d => new Date(d.day) )
 				let maxDate = d3.max( data, d => new Date(d.day) )
 

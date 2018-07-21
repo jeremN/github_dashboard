@@ -1,8 +1,16 @@
 <template>
-	<svg :style='{ width: settings.width +"px", height: settings.height +"px" }'>
-		<g class='chart-container' style='transform: translate(40, 20)'>
-		</g>
-	</svg>
+	<div class="card card-chart">
+		<div class="card-heading">
+			<h2 v-if="this.datas"><span class="color-blue">{{ sum }}</span> bytes of code</h2>
+			<h2 v-else>No data to show</h2>
+		</div>
+		<div class="card-body">
+			<svg :style='{ width: settings.width +"px", height: settings.height +"px" }'>
+				<g class='chart-container' style='transform: translate(40, 20)'>
+				</g>
+			</svg>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -13,7 +21,7 @@
 		data() {
 			return {
 				settings: {
-					width: 650,
+					width: '',
 					height: 300,
 				},
 				colors: ['#c0bffc', '#00d8b5', '#003197', '#6261a3', '#025344'],
@@ -22,22 +30,23 @@
 					right: 20,
 					bottom: 30,
 					left: 40
-				}
+				},
+				sum: ''
 			}
 		},
 		mounted() {
+			this.settings.width = document.querySelector('.card-chart').offsetWidth;
 			this.calculatePath(this.datas)
 		},
 		methods: {
 			convertInPercent(data) {
-				let sum = data.reduce( (a, b) => a + b.value, 0)
+				this.sum = data.reduce( (a, b) => a + b.value, 0)
 				return data.map( x => {
-					return { language: x.language, value: x.value / sum * 100 } 
+					return { language: x.language, value: x.value / this.sum * 100 } 
 				})
 			},
 			calculatePath(data) {
 				data = this.convertInPercent(data)
-
 				const x = d3.scaleBand().range([0, this.settings.width]).padding(0.1)
 				const y = d3.scaleLinear().range( [this.settings.height, 0] )
 				const colors  = d3.scaleOrdinal()
