@@ -77,21 +77,42 @@
 				</svg>
 			</div>
 			<div v-if="isAuth" class="card-body">
+				<transition
+					appear
+					enter-class=""
+					enter-active-class="animated fadeIn"
+					leave-class=""
+					leave-active-class="animated fadeOut">
 				<button 
 					v-if="isAuth"
 					@click="addRepo = true"
 					class="card-fragment">
 					Create a repository 
 				</button>
+				</transition>
+				<transition
+					appear
+					enter-class=""
+					enter-active-class="animated fadeIn"
+					leave-class=""
+					leave-active-class="animated fadeOut">
 				<button
 					v-if="datas.activeRepo != null && isAuth" 
 					@click="addIssue = true" 
 					class="card-fragment">
 					Create a new issue
 				</button>
+				</transition>
 			</div>
 		</div>
-		<app-barchart v-if="datas.languages" :datas="datas.languages"></app-barchart>
+		<transition
+			appear
+			enter-class=""
+			enter-active-class="animated fadeInUp"
+			leave-class=""
+			leave-active-class="animated fadeOut">
+			<app-barchart :datas="datas.languages"></app-barchart>
+		</transition>
 		<div class="card card-fragmented">
 			<div class="card-heading">
 				<h2>Details</h2>
@@ -120,11 +141,32 @@
 				<h2>Top 3 contributors</h2>
 			</div>
 			<ul class="card-body card-list-group">
-				<app-contributors v-for="contrib, index in datas.contribs" :contrib="contrib" :key="contrib.id"></app-contributors>
+				<transition-group
+					appear
+					enter-class=""
+					enter-active-class="animated fadeInUpBig"
+					leave-class=""
+					leave-active-class="animated fadeOut">
+					<app-contributors v-for="contrib, index in datas.contribs" :contrib="contrib" :key="index"></app-contributors>
+				</transition-group>
 			</ul>
 		</div>
-		<app-issueform v-show="addIssue" @close-modal-issue="addIssue = $event"></app-issueform>
-		<app-repoform v-show="addRepo" @close-modal-repo="addRepo = $event"></app-repoform>
+		<transition
+		appear
+		enter-class=""
+		enter-active-class="animated fadeIn"
+		leave-class=""
+		leave-active-class="animated fadeOut">
+		    <app-issueform v-show="addIssue" @close-modal-issue="addIssue = $event"></app-issueform>
+		</transition>
+		<transition
+		appear
+		enter-class=""
+		enter-active-class="animated fadeIn"
+		leave-class=""
+		leave-active-class="animated fadeOut">
+			<app-repoform v-show="addRepo" @close-modal-repo="addRepo = $event"></app-repoform>
+		</transition>
 
 	</div>
 </template>

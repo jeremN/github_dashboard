@@ -29,7 +29,6 @@ const mutations = {
 	},
 	authRestricted( state, data ) {
 		state.restricted = data
-		console.log(state.restricted)
 	}
 
 }

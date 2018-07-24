@@ -1,51 +1,58 @@
 <template>
 <div class="modal">
-	<form class="form" @submit.prevent="onSubmit">
-		<button 
-			class="btn-close" 
-			type="button"
-			@click="closeModal">
-			<i class="fas fa-times"></i>
-		</button>
-		<h1 class="navbar-brand">Create a new repo <i class="fas fa-grin-alt"></i></h1>
-		<div class="form-group form-group-file">
-			<input 
-				id="selectFiles" 
-				class="form-field" 
-				type="file" 
-				name="newrepoFiles"
-				multiple
-				accept=".txt, .html, .css, .scss, .sass, .js, .json, .php, .vue, .md" 
-				@change="files">		
-			<label for="selectFiles">Drag'n'Drop your files or <span>Select a file</span></label>
-		</div>
-		<div class="form-group">
-			<label for="title">Nom<span>(required)</span></label>
-			<input 
-				id="title" 
-				class="form-field" 
-				type="text" 
-				name="newrepoTitle" 
-				required
-				v-model="title">
-		</div>
-		<div class="form-group">
-			<label for="message">Description<span>(required)</span></label>
-			<textarea 
-				id="message" 
-				class="form-field" 
-				name="newrepoMessage"
-				v-model="description">
-			</textarea>
-		</div>
-		<div class="form-group">
+	<transition
+		appear
+		enter-class=""
+		enter-active-class="animated delay-1s fadeInUp"
+		leave-class=""
+		leave-active-class="animated fadeOut">
+		<form class="form" @submit.prevent="onSubmit">
 			<button 
-				id="sendIssue" 
-				class="form-btn btn-submit">
-				Submit issue
+				class="btn-close" 
+				type="button"
+				@click="closeModal">
+				<i class="fas fa-times"></i>
 			</button>
-		</div>
-	</form>
+			<h1 class="navbar-brand">Create a new repo <i class="fas fa-grin-alt"></i></h1>
+			<div class="form-group form-group-file">
+				<input 
+					id="selectFiles" 
+					class="form-field" 
+					type="file" 
+					name="newrepoFiles"
+					multiple
+					accept=".txt, .html, .css, .scss, .sass, .js, .json, .php, .vue, .md" 
+					@change="files">		
+				<label for="selectFiles">Drag'n'Drop your files or <span>Select a file</span></label>
+			</div>
+			<div class="form-group">
+				<label for="title">Nom<span>(required)</span></label>
+				<input 
+					id="title" 
+					class="form-field" 
+					type="text" 
+					name="newrepoTitle" 
+					required
+					v-model="title">
+			</div>
+			<div class="form-group">
+				<label for="message">Description<span>(required)</span></label>
+				<textarea 
+					id="message" 
+					class="form-field" 
+					name="newrepoMessage"
+					v-model="description">
+				</textarea>
+			</div>
+			<div class="form-group">
+				<button 
+					id="sendIssue" 
+					class="form-btn btn-submit">
+					Submit issue
+				</button>
+			</div>
+		</form>
+	</transition>
 </div>
 </template>
 

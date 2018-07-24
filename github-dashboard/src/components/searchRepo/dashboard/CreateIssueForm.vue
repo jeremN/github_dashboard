@@ -1,5 +1,11 @@
 <template>
 <div class="modal">
+	<transition
+		appear
+		enter-class=""
+		enter-active-class="animated fadeInUp"
+		leave-class=""
+		leave-active-class="animated fadeOut">
 	<form class="form" @submit.prevent="onSubmit">
 		<button 
 			class="btn-close" 
@@ -38,6 +44,7 @@
 			</button>
 		</div>
 	</form>
+	</transition>
 </div>
 </template>
 

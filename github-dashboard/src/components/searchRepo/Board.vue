@@ -1,19 +1,46 @@
 <template>
 	<div class="container">
 		<div class="grid">
-			<app-searchbar></app-searchbar>
-			<app-sidebar></app-sidebar>
-			<app-dashboard></app-dashboard>
+			<transition 
+				appear
+				enter-class=""
+				enter-active-class="animated delay-02s fadeInDownBig"
+				leave-class=""
+				leave-active-class="animated fadeOut">
+					<app-searchbar></app-searchbar>
+			</transition>
+			<transition	
+				appear
+				enter-class=""
+				enter-active-class="animated fadeInLeftBig"
+				leave-class=""
+				leave-active-class="animated fadeOut">
+				<app-sidebar v-if="datas.repos"></app-sidebar>
+			</transition>
+			<transition
+				appear
+				enter-class=""
+				enter-active-class="animated delay-1s fadeIn"
+				leave-class=""
+				leave-active-class="animated fadeOut">
+				<app-dashboard></app-dashboard>
+			</transition>
 		</div>
 	</div>
 </template>
 
 <script>
+	import {mapGetters} from 'vuex'
 	import Sidebar from './Sidebar.vue'
 	import SearchBar from './SearchBar.vue'
 	import Dashboard from './Dashboard.vue'
 
 	export default {
+		computed: {
+			...mapGetters({
+				datas: 'initState',
+			}),
+		},
 		components: {
 			appSidebar: Sidebar,
 			appSearchbar: SearchBar,

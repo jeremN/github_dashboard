@@ -73,7 +73,7 @@ export default {
     font-family: 'Roboto', Arial, Helvetica, sans-serif;
     font-size: 16px;
   }
-  * {
+  *, *:after, *:before {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -83,6 +83,7 @@ export default {
     color: #082746;
     width: 100vw;
     height: 100vh;
+    max-width: 100%;
     i {
       color: #b0cad1;
     }

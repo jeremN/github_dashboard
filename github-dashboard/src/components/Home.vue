@@ -1,6 +1,15 @@
 <template>
 	<div class="screen-login">
-		<form id="loginForm" class="form" @submit.prevent="sendAuth">
+		<transition
+			appear
+			enter-class=""
+			enter-active-class="animated fadeIn"
+			leave-class=""
+			leave-active-class="animated fadeOut">
+		<form 
+			id="loginForm" 
+			class="form" 
+			@submit.prevent="sendAuth">
 			<h1 class="navbar-brand">WELCOME <i class="fas fa-grin-alt"></i></h1>
 			<div class="form-group">
 				<label for="login">Login<span>(required)</span></label>
@@ -37,6 +46,7 @@
 				<p class="warn"><i class="fas fa-exclamation-triangle"></i>Limited request rate</p>
 			</div>
 		</form>
+		</transition>
 	</div>
 </template>
 

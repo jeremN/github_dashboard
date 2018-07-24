@@ -80,6 +80,7 @@
 			},
 			logout() {
 				this.logOut()
+				this.backHome()
 			},
 			backHome() {
 				this.$router.push('/')

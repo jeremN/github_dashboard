@@ -2,7 +2,7 @@
 	<nav class="sidebar">
 		<app-user v-for="user in datas.user" :user="user"></app-user>
 		<ul class="sidebar-list">
-			<app-repos v-for="repo in datas.repos" :repo="repo"></app-repos>
+			<app-repos v-for="repo, index in datas.repos" :repo="repo" :key="index"></app-repos>
 		</ul>
 	</nav>
 </template>
